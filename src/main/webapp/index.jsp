@@ -9,5 +9,6 @@
     </head>
     <body>
         <h1>Hello World!</h1>
+        <p><a href="MessageServlet">Message Servlet</a></p>
     </body>
 </html>
