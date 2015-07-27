@@ -6,26 +6,27 @@ import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
 public class MyMessageListener implements MessageListener{
+    
+    private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(MyMessageListener.class);
 
+    @Override
     public void onMessage(Message message) {
-        System.out.println("Message Received");
-        TextMessage msg = null;
+        LOGGER.debug("MyMessageListener: Message Received.");
+        TextMessage msg;
 
         try {
             if (message instanceof TextMessage) {
                 msg = (TextMessage) message;
-                String requestXml = msg.getText();
-                System.out.println("Message = " + requestXml);
-                //Calling Processing Methods
-                //new JMSConnector().sendMessage(responseXml);
+                String txtMessage = msg.getText();
+                LOGGER.debug("Message = {}", txtMessage);
+                //TODO: Calling Processing Methods
             } else {
-                System.out.println("Message of wrong type: "
-                        + message.getClass().getName());
+                LOGGER.debug("Message is not a text message - do nothing (type = {})", message.getClass().getName());
             }
         } catch (JMSException e) {
-            System.out.println("JMSException in onMessage(): " + e.toString());
+            LOGGER.error("JMSException in onMessage(): " + e.toString());
         } catch (Throwable t) {
-            System.out.println("Exception in onMessage():" + t.getMessage());
+            LOGGER.error("Exception in onMessage():" + t.getMessage());
         }
     }
 }

@@ -6,20 +6,18 @@ import javax.servlet.ServletContextListener;
 
 public class MyServletContextListener implements ServletContextListener {
 
-    private static org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(MyServletContextListener.class);
-
-    @Override
-    public void contextDestroyed(ServletContextEvent arg0) {
-        LOGGER.debug("ServletContextListener destroyed");
-        System.out.println("ServletContextListener destroyed");
-    }
+    private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(MyServletContextListener.class);
 
     //Run this before web application is started
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
         LOGGER.debug("ServletContextListener started");
-        System.out.println("ServletContextListener started");
-        new JMSConnector().startListening();
-        System.out.println("Starting the JMS Listener");
+        //new JMSConnector().startListening();
+        JMSConnector.startListening();
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent arg0) {
+        LOGGER.debug("ServletContextListener destroyed");
     }
 }

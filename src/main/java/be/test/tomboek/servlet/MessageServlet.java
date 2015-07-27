@@ -1,6 +1,5 @@
 package be.test.tomboek.servlet;
 
-import be.test.tomboek.listener.MyServletContextListener;
 import be.test.tomboek.message.Producer;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,11 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 
 public class MessageServlet extends HttpServlet {
     
-    private static org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(MessageServlet.class);
+    private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(MessageServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        LOGGER.debug("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWs");
+        LOGGER.debug("MessageServlet");
+        
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
