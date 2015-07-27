@@ -12,7 +12,6 @@ public class MyServletContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
         LOGGER.debug("ServletContextListener started");
-        //new JMSConnector().startListening();
         JMSConnector.startListening();
     }
 

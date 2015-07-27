@@ -4,6 +4,7 @@ import be.test.tomboek.listener.MyServletContextListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.jms.Connection;
+import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.Queue;
@@ -30,7 +31,6 @@ public class JMSConnector {
         } catch (NamingException ex) {
             Logger.getLogger(JMSConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     public static void sendMessage(String responseMessage) throws Exception {      
@@ -65,11 +65,13 @@ public class JMSConnector {
 
             // Start connection or nothing will happen!!!
             connection.start();
-        } catch (Exception ex) {
-            System.out.println("JMS REMOTE PRODUCER: EXCEPTION");
+        } catch (JMSException ex) {
+            LOGGER.error("JMS Connector EXCEPTION: {}", ex.toString());
+        } catch (NamingException ex) {
+            LOGGER.error("JMS Connector EXCEPTION: {}", ex.toString());
         }
 
-        System.out.println("JMS REMOTE CONSUMER: finished");
+        LOGGER.debug("JMS Connector: START LISTENING - done");
     }
 
 }

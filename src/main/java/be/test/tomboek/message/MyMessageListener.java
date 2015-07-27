@@ -18,7 +18,7 @@ public class MyMessageListener implements MessageListener{
             if (message instanceof TextMessage) {
                 msg = (TextMessage) message;
                 String txtMessage = msg.getText();
-                LOGGER.debug("Message = {}", txtMessage);
+                LOGGER.debug("JMS Listener: receive message = {}", txtMessage );
                 //TODO: Calling Processing Methods
             } else {
                 LOGGER.debug("Message is not a text message - do nothing (type = {})", message.getClass().getName());

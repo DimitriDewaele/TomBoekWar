@@ -12,38 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class MessageServlet extends HttpServlet {
-    
+
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(MessageServlet.class);
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        LOGGER.debug("MessageServlet");
-        
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet MessageServlet</title>");            
-            
-            Producer.Produce();
-            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet MessageServlet at " + request.getContextPath() + "</h1>");
-            out.println("<p><a href=\"index.jsp\">index</a></p>");
-            out.println("</body>");
-            out.println("</html>");
-        } catch (JMSException ex) {
-            Logger.getLogger(MessageServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            out.close();
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -55,7 +26,32 @@ public class MessageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        LOGGER.debug("MessageServlet");
+
+        String message = request.getParameter("message");
+        String txtCount = request.getParameter("txtCount");
+        Long count = Long.valueOf(txtCount);
+        
+        try {
+            Producer.Produce(message, count);
+        } catch (JMSException ex) {
+            LOGGER.error("MessageServlet error: {}", ex.toString());
+        }
+
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Go back</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Go back to index</h1>");
+            out.println("<p><a href=\"index.jsp\">index</a></p>");
+            out.println("</body>");
+            out.println("</html>");
+            out.close();
     }
 
     /**
@@ -69,7 +65,7 @@ public class MessageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doGet(request, response);
     }
 
     /**
@@ -80,6 +76,6 @@ public class MessageServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }
